@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="js/easyui/themes/gray/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="js/easyui/themes/color.css">
+<link rel="stylesheet" type="text/css" href="css/vhe_.css">
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css"
+	href="js/easyui/themes/icon.css">
+<script type="text/javascript" src="js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript"
+	src="js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="js/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/my97/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="js/easyui/datagrid-groupview.js"></script>
+<script type="text/javascript" src="js/highcharts/highcharts.js"></script>
+<script type="text/javascript"
+	src="js/highcharts/highcharts-3d.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/zcgl.js"></script>
+<script type="text/javascript" src="js/extendValidate.js"></script>
+<script type="text/javascript" src="bps/all.js"></script>
+<script type="text/javascript" src="js/datas.js"></script>
+<script type="text/javascript">
+
+var currentUser=null;
+
+$(function(){
+	$.post("user/getCurrentUser",function(user){
+		currentUser=user;
+		$("#currentUser").text(user.yhxm);
+
+		$("#nav-tabs").tabs("add",{
+			title:"资产管理",
+			href:"page/window.html",
+			onLoad:win.initEvents,
+			selected:true
+		});
+
+		if(currentUser.js=="01"){
+			$("#nav-tabs").tabs("add",{
+				title:"系统管理",
+				href:"page/system.html",
+				onLoad:system.initEvents,
+				selected:false
+			});
+		}
+		
+	});
+})
+
+function logout(){
+	$.post("user/logout",function(data){
+		
+		if(data.state==1){
+			location.href="login.html";
+		}
+		
+	});
+}
+</script>
+
+<title>交警支队资产及后勤管理系统</title>
+<style type="text/css">
+#Layer1 {
+	z-index: 100;
+	position: absolute;
+	top: 150px;
+	right: 30px
+}
+</style>
+</head>
+<body class="easyui-layout">
+
+	<div data-options="region:'north'"
+		style="height: 84px; border: 0; background-color: rgb(40, 82, 180); overflow-x: hidden; overflow-y: hidden;">
+		<img alt="" src="images/top_logo.jpg" style="border: 0">
+	</div>
+	<div data-options="region:'south'" style="height: 30px;">
+		<div style="text-align: center;">©2017 盐城市公安局交警支队&nbsp;&nbsp;综合科&nbsp;&nbsp;技术支持：565908 &nbsp;&nbsp; 李宇 &nbsp;&nbsp; 643666 &nbsp;&nbsp; 钱坤   
+			<div style="float: right; padding-right: 5px;">当前用户：<span id="currentUser"></span>&nbsp;&nbsp;&nbsp;&nbsp;<a class="easyui-linkbutton c5" onclick="logout()">注销</a></div>
+		</div>
+	</div>
+	<div data-options="region:'center',border: 0">
+		<div class="easyui-tabs" data-options="fit:true,tabHeight:30" id="nav-tabs">
+			
+		</div>
+	</div>
+	
+<div id="comm_window" class="easyui-window" title="My Window" style="width:90%;height:90%" closed=true
+       data-options="iconCls:'icon-save',modal:true">
+</div>
+
+	
+</body>
+</html>

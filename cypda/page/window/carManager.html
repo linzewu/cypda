@@ -1,0 +1,129 @@
+<table id="pdgrid" class="easyui-datagrid"
+	data-options="data:jdcdata,singleSelect:true,toolbar:pdToolbar,url:'asset/getAssets',pagination:true,pageSize:100,pageList:[100,200,300]" style="width: 100%;height: 400px;">
+	<thead data-options="frozen:true">
+		<tr>
+			<th data-options="field:'zcbh',width:120">资产编号</th>
+			<th data-options="field:'zcmc',width:160">资产名称</th>
+			<th data-options="field:'zcdl',width:160,formatter:zcdlFormatter">资产大类</th>
+			<th data-options="field:'zcxl',width:160,formatter:zcxlFormatter">资产小类</th>
+			<th data-options="field:'zcpp1',width:160,formatter:zcpp1Formatter">资产品牌</th>
+		</tr>
+	</thead>
+	<thead>
+		<tr>
+			<th data-options="field:'cfdd',width:300">存放地点</th>
+			<th data-options="field:'zcly',width:120,formatter:zclyFormatter" >资产来源</th>
+			<th data-options="field:'rzrq',width:120">入账日期</th>
+			<th data-options="field:'lrsj',width:120">录入日期</th>
+		</tr>
+	</thead>
+</table>
+
+<div id="pdToolbar">
+	<div>
+		<label>资产编号：</label><input type="text" id="query_zcbh"/>
+		<label>资产大类：</label><select id="query_zcdl" style="width: 160px;" ></select>
+		<label>资产小类：</label><select id="query_zcxl" style="width: 160px;" ></select>
+		<!-- <label>使用单位：</label><input type="text" class="easyui-combobox" data-options="data:getBaseParames('hpzl'),valueField:'id',textField:'value'" /> -->
+		<label>存放地点：</label><input type="text" id="query_cfdd" />
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onClick="queryAsset()" >查询</a>
+	</div>
+	<div>&nbsp;</div>
+	<div>
+		<!-- <label>号牌号码：</label><input type="text"  /> -->
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+			 onclick="addAsset()" >新增资产</a>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+			 onclick="copyAsset()" >复制添加</a>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+			 onclick="editAsset()" >编辑资产</a>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'"
+			 onclick="deleteAsset()" >删除资产</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	function queryAsset(){
+
+		var data={};
+		data.zcbh = $("#query_zcbh").val();
+		data.zcdl =$("#query_zcdl").val();
+		data.zcxl =$("#query_zcxl").val();
+		data.cfdd =$("#query_cfdd").val();
+		$("#pdgrid").datagrid("reload",data);
+		
+		
+	}
+
+	$(function(){
+		comm.createBaseSelect("#query_zcdl",'01',"请选择资产大类");
+		$("#query_zcdl").change(function(){
+			$("#query_zcxl").empty();
+			comm.createBaseSelect("#query_zcxl",this.value,"请选择资产小类");
+		});
+		
+	});
+
+	var assetMode="";
+	function editAsset(){
+		var row = $("#pdgrid").datagrid("getSelected");
+		if(!row){
+			$.messager.alert("提示","选择编辑资产","info");
+			return;
+		}
+		assetMode="edit";
+		comm.openComWindow('page/window/info.html?times='+new Date().getTime(),{title:'编辑资产'});
+	}
+
+	function addAsset(){
+		assetMode="add";
+		comm.openComWindow('page/window/info.html?times='+new Date().getTime(),{title:'新增资产'});
+	}
+
+	function copyAsset(){
+		var row = $("#pdgrid").datagrid("getSelected");
+		if(!row){
+			$.messager.alert("提示","选择复制的资产","info");
+			return;
+		}
+		assetMode="copy";
+		comm.openComWindow('page/window/info.html?times='+new Date().getTime(),{title:'复制资产'});
+	}
+
+	function deleteAsset(){
+		var row = $("#pdgrid").datagrid("getSelected");
+		if(!row){
+			$.messager.alert("提示","选择删除的资产","info");
+			return;
+		}
+
+		$.messager.confirm("确认","您是否删除该资产？",function(r){
+			if(r){
+				$.post("asset/deleteAsset",{id:row.id},function(data){
+					if(data.state=="1"){
+						$.messager.alert("提示",data.message,"info");
+						$("#pdgrid").datagrid("reload");
+					}
+				});
+			}
+		});
+	}
+
+	function zcdlFormatter(value,row,index){
+		return comm.getParamNameByValue('01',value);
+	}
+
+	function zcxlFormatter(value,row,index){
+		return comm.getParamNameByValue(row.zcdl,value);
+	}
+
+	function zcpp1Formatter(value,row,index){
+		return comm.getParamNameByValue(row.zcxl,value);
+	}
+
+	function zclyFormatter(value,row,index){
+		return comm.getParamNameByValue('zcly',value);
+	}
+	
+</script>

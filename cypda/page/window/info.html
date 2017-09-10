@@ -1,0 +1,246 @@
+ <form method="post" id="assetForm" enctype="multipart/form-data">
+ <div style="margin: 10px 10px 10px 10px;">
+ <fieldset class="base_fl">
+ 	<legend>资产明细</legend>
+	<table class="base_table" cellpadding="0"  cellspacing="0">
+		<tr>
+			<td class="info_title" style="width: 10%"><label for="date">资产编号:</label></td>
+			<td class="info" style="width: 15%"><input name="zcbh" class="easyui-validatebox" data-options="required:true"></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产大类:</label></td>
+			<td class="info" style="width: 15%"><select name="zcdl" class="easyui-validatebox" data-options="required:true"></select></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产小类:</label></td>
+			<td class="info" style="width: 15%" ><select name="zcxl" class="easyui-validatebox" data-options="required:true"></select></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产名称:</label></td>
+			<td class="info" style="width: 15%"><input name="zcmc" class="easyui-validatebox" data-options="required:true"></td>
+		</tr>
+		<tr>
+			<td class="info_title" style="width: 10%"><label for="date">资产品牌1:</label></td>
+			<td class="info" style="width: 15%"><select name="zcpp1" class="easyui-validatebox" data-options="required:true"></select></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产品牌2:</label></td>
+			<td class="info" style="width: 15%"><input name="zcpp2"/></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产来源:</label></td>
+			<td class="info" style="width: 15%"><select name="zcly" class="easyui-validatebox" data-options="required:true" ></select></td>
+			<td class="info_title" style="width: 10%"><label for="date">入账日期:</label></td>
+			<td class="info" style="width: 15%"><input name="rzrq" readonly="readonly" onFocus="WdatePicker()" class="Wdate" ></td>
+		</tr>
+		<tr>
+			<td class="info_title" style="width: 10%"><label for="date">资产原值:</label></td>
+			<td class="info" style="width: 15%"><input name="zcyz" class="easyui-validatebox" data-options="validType:'numberVad'"></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产净值:</label></td>
+			<td class="info" style="width: 15%"><input name="zcjz" class="easyui-validatebox" data-options="validType:'numberVad'"></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产数量:</label></td>
+			<td class="info" style="width: 15%"><input name="zcsl" class="easyui-validatebox" data-options="validType:'numberVad'"></td>
+			<td class="info_title" style="width: 10%"><label for="date">规格型号:</label></td>
+			<td class="info" style="width: 15%"><input name="ggxh"></td>
+		</tr>
+		<tr>
+			<td class="info_title" style="width: 10%"><label for="date">存放地点:</label></td>
+			<td class="info" style="width: 15%" ><input name="cfdd"></td>
+			
+			<td class="info_title" style="width: 10%"><label for="date">使用单位:</label></td>
+			<td class="info" style="width: 40%" colspan="3">
+				<select id="sydw" class="easyui-combotree" name="sydw" style="width: 400px;"
+				        data-options="url:'dept/getEasyTreeOfDept',onLoadSuccess:sydwLoad" >
+				</select>
+			</td>
+			<td class="info_title" style="width: 10%"><label for="date">使用人:</label></td>
+			<td class="info" style="width: 15%"><input name="syr" style="width: 80px;background-color: #eee;" readonly="readonly"><label id="syrxm"></label><input name="syrxm" type="hidden"></td>
+		</tr>
+		<tr>
+			<td class="info_title" style="width: 10%"><label for="date">参数配置1:</label></td>
+			<td class="info" style="width: 40%" colspan="3"> <input name="cspz1" style="width: 360px;"></td>
+			<td class="info_title" style="width: 10%"><label for="date">参数配置2:</label></td>
+			<td class="info" style="width: 40%" colspan="3"> <input name="cspz2" style="width: 360px;"></td>
+		</tr>
+		<tr>
+			<td class="info_title" style="width: 10%"><label for="date">凭证编号:</label></td>
+			<td class="info" style="width: 15%"> <input name="pzbh"></td>
+			<td class="info_title" style="width: 10%"><label for="date">资产状态:</label></td>
+			<td class="info" style="width: 15%"><select name="zczt" class="easyui-validatebox" data-options="required:true"></select></td>
+				<td class="info_title" style="width: 10%"><label for="date">录入时间:</label></td>
+			<td class="info" style="width: 15%"><input name="lrsj" readonly="readonly" disabled="disabled" ></td>
+			<td class="info_title" style="width: 10%"><label for="date">报废日期:</label></td>
+			<td class="info" style="width: 15%"><input name="bfrq" readonly="readonly" onFocus="WdatePicker()" class="Wdate" ></td>
+		</tr>
+		<tr class="cl">
+			<td class="info_title" style="width: 10%"><label for="date">车辆号牌号码:</label></td>
+			<td class="info" style="width: 15%"><input name="clhphm"></td>
+			<td class="info_title" style="width: 10%"><label for="date">车辆号牌种类:</label></td>
+			<td class="info" style="width: 15%"><select name="clhpzl"></select></td>
+			<td class="info_title" style="width: 10%"><label for="date">车辆识别代号:</label></td>
+			<td class="info" style="width: 15%"><input name="clsbdh"></td>
+			<td class="info_title" style="width: 10%"><label for="date">车辆发动机号:</label></td>
+			<td class="info" style="width: 15%"><input name="clfdjh"></td>
+		</tr>
+		<tr>
+			<td class="info_title" style="width: 10%"><label for="date">图片附件:</label></td>
+			<td colspan="3" class="info">
+				<input class="easyui-filebox" style="width:300px" name="files" id="files">
+			</td>
+			<td class="info_title" style="width: 10%"><label for="date">资产接收人:</label></td>
+			<td colspan="3" class="info">
+				<input name="jsr" style="width: 80px;"><label id="jsrxm"></label><input name="jsrxm" type="hidden">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="8" class="info" style="text-align: right; padding: 10px 20px 10px 10px; ">
+				<input type="hidden" name="id" >
+				<a href="#" class="easyui-linkbutton c6" id="save" data-options="onClick:save">保&nbsp;&nbsp;存</a>
+				<a href="#" class="easyui-linkbutton c2" id="close" data-options="onClick:close">关&nbsp;&nbsp;闭</a>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="8" class="info">
+			 	<div>
+			 		<ul style="float: left;margin: 0 3px 0 3px;" id="asset_img">
+			 		</ul>
+			 	</div>
+			</td>
+		</tr>
+	 </table>
+ </fieldset>
+</div>
+</form>
+<script type="text/javascript">
+	
+	$(infoInit);
+	
+	function infoInit(){
+		
+		$(".cl").hide();
+		
+		var row=null;
+		if(assetMode=="edit"||assetMode=="copy"){
+			row = $("#pdgrid").datagrid("getSelected");
+		}
+		
+		comm.createBaseSelect("#assetForm select[name=zcdl]","01","请选择资产大类");
+		$("#assetForm select[name=zcdl]").change(function(object){
+			if(this.value=="0105"){
+				$(".cl").show();
+			}
+			
+			$("#assetForm select[name=zcxl]").empty();
+			comm.createBaseSelect("#assetForm select[name=zcxl]",$("#assetForm select[name=zcdl]").val(),"请选择资产小类");
+			if(row){
+				$("#assetForm select[name=zcxl]").val(row.zcxl);
+			}
+		});
+		
+		$("#assetForm select[name=zcxl]").change(function(){
+			var txt = $("#assetForm select[name=zcxl]").find("option:selected").text();
+			$("#assetForm input[name=zcmc]").val(txt);
+			$("#assetForm select[name=zcpp1]").empty();
+			comm.createBaseSelect("#assetForm select[name=zcpp1]",$("#assetForm select[name=zcxl]").val(),"请选择资产品牌");
+			if(row){
+				$("#assetForm select[name=zcpp1]").val(row.zcpp1);
+			}
+		});
+		
+		$("#assetForm select[name=zcpp1]").change(function(){
+			var txt = $("#assetForm select[name=zcpp1]").find("option:selected").text();
+			$("#assetForm input[name=zcpp2]").val(txt);
+			if(row){
+				$("#assetForm select[name=zcpp2]").val(row.zcpp2);
+			}
+		});
+		
+		comm.createBaseSelect("#assetForm select[name=zcly]",'zcly',"请选择资产来源");
+		comm.createBaseSelect("#assetForm select[name=zczt]",'zczt',"请选择资产状态");
+		comm.createBaseSelect("#assetForm select[name=clhpzl]",'hpzl',"请选择车辆号牌种类");
+		
+		
+		$("#assetForm input[name=syr]").val(currentUser.gh);
+		
+		$("#syrxm").text(currentUser.yhxm);
+		$("#assetForm input[name=syrxm]").val(currentUser.yhxm);
+		
+		
+		$("#assetForm input[name=jsr]").change(function(){
+			$("#jsrxm").text("");
+			$("#assetForm input[name=jsrxm]").val("");
+			$.post("user/getUserByGh",{gh:this.value},function(data){
+				if(data){
+					$("#jsrxm").text(data.yhxm);
+					$("#assetForm input[name=jsrxm]").val(data.yhxm);
+				}
+			})
+		}); 
+		
+		if(row){
+			$("#assetForm").form("load",row);
+			$("#assetForm select").change();
+			$("#assetForm input").change();
+			if(assetMode=="copy"){
+				$("#assetForm input[name=zcbh]").val("");
+				$("#assetForm input[name=id]").val("");
+			}
+			
+			if($("#assetForm input[name=id]").val()!=""){
+				$.post("asset/getAssetPhotos",{id:row.id},function(data){
+					$.each(data,function(i,n){
+						var img = $(" <li><a href=\"#\" >删除</a><br><br><img src=\"asset/getPhoto?id="+n.id+"&zpmc="+n.zpmc+"\" style=\"width: 400px;height: 300px;\"/></li>");
+						img.find("a").click(function(){
+							
+							$.messager.confirm("确认","您是否删除该图片？",function(r){
+								if(r){
+									$.post("asset/deletePhoto",{id:n.id},function(data){
+										if(data.state=1){
+											$.messager.alert("提示",data.message,"info");
+											img.remove();
+										}
+									});
+								}
+							});
+						});
+						
+						$("#asset_img").append(img);
+					})
+				});
+			}
+		}
+		
+	}
+	
+	function save(){
+		
+		$.messager.progress();
+		$('#assetForm').form('submit',{
+			url:'asset/saveAsset',
+			onSubmit:function(){
+				var isValid = $(this).form('validate');
+				if (!isValid){
+					$.messager.progress('close');
+				}
+				return isValid;
+			},
+			success:function(data){
+				$.messager.progress('close');
+				$.messager.alert("提示","保存成功","info",function(){
+					$("#comm_window").window("close");
+				});
+				$("#pdgrid").datagrid("reload");
+				$("#assetForm input[name=id]").val(data.id);
+			}
+		});
+
+	}
+	
+	function sydwLoad(){
+		$("#sydw").combotree("setValue",currentUser.bmdm);
+		$("#sydw").combotree("disable");
+	}
+	
+	function close(){
+		$("#comm_window").window("close");
+	}
+	
+</script>
+<style>
+#asset_img li{
+	float: left;
+	list-style: none;
+	padding: 3px 5px 3px 5px;
+	text-align: center;
+}
+</style>
