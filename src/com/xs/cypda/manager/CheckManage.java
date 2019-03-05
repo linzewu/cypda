@@ -17,6 +17,7 @@ import org.dom4j.DocumentHelper;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
@@ -26,6 +27,10 @@ import com.xs.common.BeanXMLUtil;
 import com.xs.cypda.service.client.TmriJaxRpcOutAccessServiceStub;
 import com.xs.cypda.service.client.TmriJaxRpcOutAccessServiceStub.QueryObjectOutResponse;
 import com.xs.cypda.service.client.TmriJaxRpcOutAccessServiceStub.WriteObjectOutResponse;
+import com.xs.cypda.service.client.TmriJaxRpcOutNewAccessServiceStub;
+import com.xs.cypda.service.client.TmriJaxRpcOutNewAccessServiceStub.QueryObjectOutNewResponse;
+import com.xs.cypda.service.client.TmriJaxRpcOutNewAccessServiceStub.WriteObjectOutNewResponse;
+import com.xs.cypda.service.client.TmriJaxRpcOutService;
 
 @Service("checkManage")
 public class CheckManage {
@@ -39,32 +44,37 @@ public class CheckManage {
 
 	@Value("${xtlb}")
 	private String xtlb;
+	
+	@Autowired
+	private TmriJaxRpcOutService tmriJaxRpcOutService;
 
 	@Resource(name = "hibernateTemplate")
 	private HibernateTemplate hibernateTemplate;
 
-	public CheckManage() {
-		try {
-			tro = new TmriJaxRpcOutAccessServiceStub();
-		} catch (AxisFault e) {
-			logger.error("链接专网查验平台失败", e);
-		} catch (IOException e) {
-			logger.error("加载rca配置文件出错", e);
-		}
-	}
+//	public CheckManage() {
+//		try {
+//			tro = new TmriJaxRpcOutAccessServiceStub();
+//		} catch (AxisFault e) {
+//			logger.error("链接专网查验平台失败", e);
+//		} catch (IOException e) {
+//			logger.error("加载rca配置文件出错", e);
+//		}
+//	}
 
 	public Document write(String jkid, Map data)
 			throws UnsupportedEncodingException, RemoteException, DocumentException {
 		try {
-			TmriJaxRpcOutAccessServiceStub.WriteObjectOut woo = new TmriJaxRpcOutAccessServiceStub.WriteObjectOut();
+			//TmriJaxRpcOutAccessServiceStub.WriteObjectOut woo = new TmriJaxRpcOutAccessServiceStub.WriteObjectOut();
+			TmriJaxRpcOutNewAccessServiceStub trias =tmriJaxRpcOutService.createTmriJaxRpcOutNewAccessServiceStub();
+			TmriJaxRpcOutNewAccessServiceStub.WriteObjectOutNew woo = tmriJaxRpcOutService.createWriteObjectOut();
 			woo.setJkid(jkid);
-			woo.setXtlb(xtlb);
-			woo.setJkxlh(jkxlh);
+			//woo.setXtlb(xtlb);
+			//woo.setJkxlh(jkxlh);
 			Document xml = BeanXMLUtil.map2xml(data, "vehpara");
 			logger.info("BO===:" + xml.asXML());
 			woo.setUTF8XmlDoc(xml.asXML());
-			WriteObjectOutResponse wor = tro.writeObjectOut(woo);
-			String response = wor.getWriteObjectOutReturn();
+			WriteObjectOutNewResponse wor = trias.writeObjectOutNew(woo);
+			String response = wor.getWriteObjectOutNewReturn();
 			response = URLDecoder.decode(response, "utf-8");
 			Document document = DocumentHelper.parseText(response);
 			logger.info(document.asXML());
@@ -84,18 +94,19 @@ public class CheckManage {
 	public Document queryws(String jkid, Map param)
 			throws RemoteException, UnsupportedEncodingException, DocumentException {
 
-		TmriJaxRpcOutAccessServiceStub.QueryObjectOut qoo = new TmriJaxRpcOutAccessServiceStub.QueryObjectOut();
-
+		//TmriJaxRpcOutAccessServiceStub.QueryObjectOut qoo = new TmriJaxRpcOutAccessServiceStub.QueryObjectOut();
+		TmriJaxRpcOutNewAccessServiceStub trias = tmriJaxRpcOutService.createTmriJaxRpcOutNewAccessServiceStub();
+		TmriJaxRpcOutNewAccessServiceStub.QueryObjectOutNew qoo = tmriJaxRpcOutService.createQueryObjectOut();
 		qoo.setJkid(jkid);
-		qoo.setXtlb(xtlb);
-		qoo.setJkxlh(jkxlh);
+		//qoo.setXtlb(xtlb);
+		//qoo.setJkxlh(jkxlh);
 		Document xml = BeanXMLUtil.map2xml(param, "QueryCondition");
 		logger.info("BO===:" + xml.asXML());
 
 		qoo.setUTF8XmlDoc(xml.asXML());
-		QueryObjectOutResponse qoor = tro.queryObjectOut(qoo);
+		QueryObjectOutNewResponse qoor = trias.queryObjectOutNew(qoo);
 
-		String response = qoor.getQueryObjectOutReturn();
+		String response = qoor.getQueryObjectOutNewReturn();
 		response = URLDecoder.decode(response, "utf-8");
 		Document document = DocumentHelper.parseText(response);
 		logger.info(document.asXML());
